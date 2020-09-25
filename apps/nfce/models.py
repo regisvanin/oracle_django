@@ -1,10 +1,11 @@
 from django.db import models
 from django.urls import reverse
+from django.utils import timezone
 
 
 class Nfce(models.Model):
     id = models.AutoField(primary_key=True)
-    data_cadastro = models.DateTimeField()
+    data_cadastro = models.DateTimeField(default=timezone.now)
     data_alteracao = models.DateTimeField(null=True)
     empresa = models.IntegerField(blank=False, null=False)
     pdv = models.IntegerField(blank=False, null=False)
@@ -23,4 +24,4 @@ class Nfce(models.Model):
         return reverse('list_nfce')
 
     def __str__(self):
-        return self.empresa
+        return str(self.id)

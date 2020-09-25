@@ -1,0 +1,141 @@
+{% extends 'base.html' %}
+
+{% block main %}
+
+<div class="form-row col-sm-12">
+	<form class="form-group col-sm-4" action="" method="get">
+		<div class="input-group">
+			<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
+			<input type="text" class="form-control" name="depto" placeholder="Digite um Depto..">
+		</div>
+	</form>
+	<form class="form-group col-sm-4" action="" method="get">
+		<div class="input-group">
+			<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
+			<input type="text" class="form-control" name="produto" placeholder="Digite um SKU..">
+		</div>
+	</form>
+	<form class="form-group col-sm-4" action="" method="get">
+		<div class="input-group">
+			<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
+			<input type="text" class="form-control" name="descritivo" placeholder="Digite um Descritivo.." >
+		</div>
+	</form>
+</div>
+
+
+<div class="box">
+	<div class="box-header" data-original-title>
+		<h2><i class="fa fa-bars"></i><span class="break"></span>Consulta de Estoque dos Produtos</h2>
+		<div class="box-icon">
+			<a href="{% url 'list_estform' %}" class="btn-minimize"><i class="fa fa-chevron-up"></i></a>
+			<a href="{% url 'list_estform' %}" class="btn-close"><i class="fa fa-times"></i></a>
+		</div>
+	</div>
+
+	<div class="box-content">
+
+		<table class="table table-sm table-striped table-bordered bootstrap-datatable datatable" id="table1">
+			<thead>
+			<tr>
+				<th>SKU
+					<a href="#" class="btn-setting"><i class="fa fa-search"></i></a>
+				</th>
+				<th>Descritivo
+					<a href="#" class="btn-setting"><i class="fa fa-search"></i></a>
+				</th>
+				<th>EAN</th>
+				<th>Estoque Atual</th>
+			</tr>
+			</thead>
+			<tbody>
+			{% for produto in object_list %}
+			<tr>
+				<td style="text-align: center;">{{ produto.sku }}</td>
+				<td>{{ produto.desc_produto }}</td>
+				<td>{{ produto.ean }}</td>
+				<td style="text-align: right;">
+					{% if produto.estoque_atual > 0 %}
+					<span class="label label-success">{{ produto.estoque_atual }}</span>
+					{% endif %}
+
+					{% if produto.estoque_atual == 0 %}
+					<span class="label label-warning">{{ produto.estoque_atual }}</span>
+					{% endif %}
+
+					{% if produto.estoque_atual < 0 %}
+					<span class="label label-danger">{{ produto.estoque_atual }}</span>
+					{% endif %}
+				</td>
+			</tr>
+			{% endfor %}
+			</tbody>
+		</table>
+		<div class="pagination">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+            <a class="btn btn-grey" href="?page=1">&laquo; Primeira</a>
+            <a class="btn btn-grey" href="?page={{ page_obj.previous_page_number }}">Anterior</a>
+        {% endif %}
+
+        <span class="current">
+            Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}
+        </span>
+
+        {% if page_obj.has_next %}
+            <a class="btn btn-grey" href="?page={{ page_obj.next_page_number }}">Próxima</a>
+            <a class="btn btn-gray" href="?page={{ page_obj.paginator.num_pages }}">Ultima &raquo;</a>
+        {% endif %}
+    </span>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="myModal">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title">Pesquisa por SKU</h4>
+			</div>
+			<div class="modal-body">
+				<div class="control">
+					<input type="text" id="sku" class="form-control" alt="table1" onkeyup="myFunction()" placeholder="Pesquisa por SKU..">
+					<input type="text" id="desc_produto" class="form-control" alt="table1" onkeyup="myFunction()" placeholder="Pesquisa por Descritivo..">
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+{% endblock %}
+
+
+{% block staticjs %}
+<script type="text/javascript">
+function myFunction() {
+  // Declare variables
+  var input, filter, table, tr, td, i, txtValue;
+  input = document.getElementById("desc_produto");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("table1");
+  tr = table.getElementsByTagName("tr");
+
+  // Loop through all table rows, and hide those who don't match the search query
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[0];
+    if (td) {
+      txtValue = td.textContent || td.innerText;
+      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
+    }
+  }
+}
+</script>
+{% endblock %}

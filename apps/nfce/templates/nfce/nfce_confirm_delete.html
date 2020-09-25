@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block main %}
+
+<div class="box-content alerts">
+    <div class="alert alert-danger">
+        <form method="post">
+            {% csrf_token %}
+            <strong>Certeza que deseja excluir o registro {{ object }} ?</strong>
+            {{ form }}
+            <button type="submit" class="close"><i class="fa fa-check"></i></button>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

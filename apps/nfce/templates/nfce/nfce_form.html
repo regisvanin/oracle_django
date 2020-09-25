@@ -1,64 +1,116 @@
 {% extends 'base.html' %}
+{% load bootstrap %}
 {% block main %}
 
-<form class="form-horizontal" method="post">
+
+<form class="form" method="post" >
     {% csrf_token %}
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="box">
-                <div class="box-header">
-                    <h2><i class="fa fa-align-justify"></i><span class="break"></span>Nfce Inutilizadas</h2>
-                </div>
-                <div class="box-content">
-                    <div class="form-group">
-                        <label class="control-label" for="data_cadastro">Data Cadastro</label>
-                        <div class="controls input-group col-sm-2">
-                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                            <input class="form-control" id="data_cadastro" type="date" name="data_cadastro" required>
-                        </div>
-                        <label class="control-label" for="empresa">Empresa</label>
-                        <div class="controls input-group col-sm-2">
-                            <input class="form-control" id="empresa" type="text" name="empresa" maxlength="100" required>
-                        </div>
-                        <label class="control-label" for="pdv">Pdv</label>
-                        <div class="controls input-group col-sm-2">
-                            <input class="form-control" id="pdv" type="text" name="pdv" maxlength="3" required>
-                        </div>
-                        <label class="control-label" for="data_ocorrencia">Data Ocorrência</label>
-                        <div class="controls input-group col-sm-2">
-                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                            <input class="form-control" id="data_ocorrencia" type="date" name="data_ocorrencia" required>
-                        </div>
-                        <label class="control-label" for="num_sat">Número SAT</label>
-                        <div class="controls input-group col-sm-2">
-                            <input class="form-control" id="num_sat" type="text" name="num_sat" maxlength="100" required>
-                        </div>
-                        <label class="control-label" for="fabricante">Fabricante</label>
-                        <div class="controls input-group col-sm-2">
-                            <input class="form-control" id="fabricante" type="text" name="fabricante" maxlength="200" required>
-                        </div>
-                        <div class="controls input-group col-sm-2">
-                            <label class="control-label" for="num_extrato">Extrato:</label>
-                            <input class="form-control" id="num_extrato" type="text" name="num_extrato" maxlength="100" required>
-                        </div>
-                        <label class="control-label" for="num_ticket">Número Ticket</label>
-                        <div class="controls input-group col-sm-2">
-                            <input class="form-control" id="num_ticket" type="number" name="num_ticket" maxlength="10" required>
-                        </div>
-                        <label class="control-label" for="atendente">Atendente</label>
-                        <div class="controls input-group col-sm-2">
-                            <input class="form-control" id="atendente" type="text" name="atendente" maxlength="100" required>
-                        </div>
-                    </div>
-                </div>
+    <!--
+    <div class="form-row">
+        <div class="form-group">
+            {{ form|bootstrap }}
+        </div>
+    </div>
+    -->
+    <!--
+    <div class="fieldWrapper">
+        {% for field in form %}
+        <div class="fieldWrapper">
+            {{ field.errors }}
+            {{ field.label_tag }} {{ field }}
+            {% if field.help_text %}
+            <p class="help">{{ field.help_text|safe }}</p>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+    -->
+
+    {{ form.non_fields_errors }}
+    <div class="form-row col-sm-12">
+        <div class="fieldWrapper">
+            <div class="form-group col-sm-4">
+                {{ form.data_cadastro.errors }}
+                <label for="{{ form.data_cadastro.id_for_label }}">Data Cadastro</label>
+                {{ form.data_cadastro }}
+            </div>
+        </div>
+        <div class="fieldWrapper">
+            <div class="form-group col-sm-4">
+                {{ form.data_ocorrencia.errors }}
+                <label for="{{ formn.data_ocorrencia.id_for_label }}">Data Ocorrência</label>
+                {{ form.data_ocorrencia }}
+            </div>
+        </div>
+        <div class="fieldWrapper">
+            <div class="form-group col-sm-2">
+                {{ form.empresa.errors }}
+                <label for="{{ form.empresa.id_for_label }}">Empresa</label>
+                {{ form.empresa }}
+            </div>
+        </div>
+        <div class="fieldWrapper">
+            <div class="form-group col-sm-2">
+                {{ form.pdv.errors }}
+                <label for="{{ form.pdv.id_for_label }}">Pdv</label>
+                {{ form.pdv }}
+            </div>
+        </div>
+
+    </div>
+    {{ form.non_fields_errors }}
+    <div class="form-row col-sm-12 ">
+        <div class="fieldWrapper">
+            <div class="form-group col-sm-4">
+                {{ form.num_sat.errors }}
+                <label for="{{ form.num_sat.id_for_label }}">Número do SAT</label>
+                {{ form.num_sat }}
+            </div>
+        </div>
+        <div class="fieldWrapper">
+            <div class="form-group col-sm-4">
+                {{ form.num_extrato.errors }}
+                <label for="{{ form.num_extrato.id_for_label }}">Número do Extrato</label>
+                {{ form.num_extrato }}
+            </div>
+        </div>
+        <div class="fieldWrapper">
+            <div class="form-group col-sm-4">
+                {{ form.num_ticket.errors }}
+                <label for="{{ form.num_ticket.id_for_label }}">Número do Ticket</label>
+                {{ form.num_ticket }}
+            </div>
+        </div>
+    </div>
+    {{ form.non_fields_errors }}
+    <div class="form-row col-sm-12 ">
+        <div class="fieldWrapper">
+            <div class="form-group col-sm-6">
+                {{ form.fabricante.errors }}
+                <label for="{{ form.fabricante.id_for_label }}">Fabricante</label>
+                {{ form.fabricante }}
+            </div>
+        </div>
+        <div class="fieldWrapper">
+            <div class="form-group col-sm-6">
+                {{ form.atendente.errors }}
+                <label for="{{ form.atendente.id_for_label }}">Atendente Suporte</label>
+                {{ form.atendente }}
             </div>
         </div>
     </div>
 
-    <div class="form-actions">
-        <button type="submit" class="btn btn-primary">Savar</button>
+
+    <div class="form-group row">
+        <div class="col-sm-12">
+            <button type="submit" class="btn btn-primary">Salvar</button>
+        </div>
     </div>
+
 </form>
 
 
+{% endblock %}
+
+{% block static %}
 {% endblock %}
